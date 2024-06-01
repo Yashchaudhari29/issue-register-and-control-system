@@ -1,0 +1,11 @@
+userid,password,role,rig,mob_number
+om1,123,om,r1,456
+om1,123,om,r2,4562
+om1,123,om,r3,45623
+im1,123,im,r1,4563454
+im2,123,im,r2,4564567
+im3,123,im,r3,45676
+sir1,123,si,r1,45698
+sir2,123,si,r2,45676
+sir3,123,si,r3,45654
+om2,123,om,r4,456456

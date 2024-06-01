@@ -1,0 +1,19 @@
+{
+    "name": "ONGC",
+    "short_name": "ONGC",
+    "start_url": "/index.php",
+    "background_color": "#6777ef",
+    "description": "Issue Control WebApp",
+    "display": "fullscreen",
+    "theme_color": "#6777ef",
+    "icons": [
+        {
+            "src": "cmp_img/logo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "prefer_related_applications": true,
+    "related_applications": []
+}
