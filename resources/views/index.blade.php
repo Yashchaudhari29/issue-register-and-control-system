@@ -72,7 +72,6 @@
   </style>
 </head>
 <body>
-  <!-- Watermark Image -->
   @if ($errors->any())
     <div class="alert alert-danger" role="alert">
         @foreach ($errors->all() as $error)
@@ -104,7 +103,6 @@
       <div class="col-md-6 login-container">
         <div class="card">
           <div class="card-header">
-            <!-- Logo -->
             <img src="{{ asset('cmp_img/logo.png') }}" alt="Logo" width="100" height="100">
             <div>
                 Login Page
@@ -146,8 +144,6 @@
 <script src="{{ asset('/sw.js') }}"></script>
 		<script>
 		   if ("serviceWorker" in navigator) {
-		      // Register a service worker hosted at the root of the
-		      // site using the default scope.
 		      navigator.serviceWorker.register("/sw.js").then(
 		      (registration) => {
 			 console.log("Service worker registration succeeded:", registration);

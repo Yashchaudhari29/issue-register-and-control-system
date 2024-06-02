@@ -11,8 +11,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacts</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f4f6f9;
@@ -31,13 +29,11 @@
 </head>
 <body>
     <div class="container mt-4">
-        <!-- Add Issue Button (Top) -->
         <div class="d-flex justify-content-end mb-3 vertical-center">
             <form action="{{ route('om.list.form') }}" method="GET">
                 <button type="submit" class="btn btn-primary">Add Issue</button>
             </form>
         </div>
-        <!-- Rig Details -->
         <div class="row">
         @foreach($contacts as $contact)
     <div class="col-md-4 col-sm-6">
@@ -63,7 +59,6 @@
 
         </div>
 
-        <!-- Issue List Button (Bottom) -->
         <div class="d-flex justify-content-end mt-3">
             <form action="{{ route('om.list') }}" method="GET">
                 <button type="submit" class="btn btn-primary">Issue List</button>
@@ -71,10 +66,6 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 <script>
     window.onload = function() {
