@@ -123,15 +123,15 @@ public function submit_issue(Request $request){
             }
             $data->images = json_encode($imageNames); 
         }
-
+        // dd($data->images);
         $data->save(); 
     }
     if ($user->role == 'om') {
-        return redirect('/om_list')->with('status', 'Issue submitted successfully!');
+        return response()->json(['status' => 'success', 'redirect_url' => url('/om_list')]);
     } elseif ($user->role == 'im') {
-        return redirect('/im_list')->with('status', 'Issue submitted successfully!');
+        return response()->json(['status' => 'success', 'redirect_url' => url('/im_list')]);
     } else {
-        return redirect('/si_list')->with('status', 'Issue submitted successfully!');
+        return response()->json(['status' => 'success', 'redirect_url' => url('/si_list')]);
     }
 }
 public function closeIssue($IssueId) {

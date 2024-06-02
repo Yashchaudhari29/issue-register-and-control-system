@@ -10,8 +10,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
-	<link rel="manifest" href="{{ asset('/manifest.json') }}">
+  <link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
+  <link rel="manifest" href="{{ asset('/manifest.json') }}">
   <style>
     body {
       background-color: #f8f9fa;
@@ -70,10 +70,8 @@
       <div class="col-md-8 form-container">
         <h2>Add New Issue</h2>
 
-        <!-- <form id="issueForm" action="{{ url('/issue_list') }}" method="GET" onsubmit="return validateForm()" class="needs-validation" novalidate> -->
-    
-        <form id="issueForm" action="{{ route('issue.submit') }}" method="POST" onsubmit="return validateForm()" enctype='multipart/form-data' class='needs-validation' novalidate > @csrf
-
+        <form id="issueForm" action="{{ route('issue.submit') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+          @csrf
           <div class="form-group">
             <label for="issueTitle">Title</label>
             <input type="text" class="form-control" id="issueTitle" name="issueTitle" placeholder="Enter issue title" required>
@@ -85,14 +83,14 @@
             <div class="invalid-feedback">Please enter a description.</div>
           </div>
           <div class="form-group">
-  <label for="issueDate">Date</label>
-  <input type="date" class="form-control" id="issueDate" name="issueDate" required>
-  <div class="invalid-feedback">Please select a date.</div>
-</div>
+            <label for="issueDate">Date</label>
+            <input type="date" class="form-control" id="issueDate" name="issueDate" required>
+            <div class="invalid-feedback">Please select a date.</div>
+          </div>
           <div class="image-preview-container" id="imagePreview"></div>
           <div class="add-image-button-container">
             <button type="button" class="btn btn-primary add-image-button" onclick="addMoreImageUpload()" id="addImageButton">Add Image</button>
-            <input type="file" class="form-control-file d-none" id="imageUpload" name="imageUpload[]" accept="image/*" multiple>
+            <input type="file" class="form-control-file d-none" id="imageUpload" accept="image/*" multiple>
           </div>
           <button type="submit" class="btn btn-primary mt-3">Submit</button>
         </form>
@@ -101,70 +99,110 @@
   </div>
 
   <script>
-    var imageUpload = document.getElementById('imageUpload');
-    var addImageButton = document.getElementById('addImageButton');
-    var imagePreview = document.getElementById('imagePreview');
-    var issueDate = document.getElementById('issueDate');
-    // document.addEventListener('DOMContentLoaded',function(){
-    //   document.getElementById('imageUpload').removeAttribute('capture');
+  var imageUpload = document.getElementById('imageUpload');
+  var addImageButton = document.getElementById('addImageButton');
+  var imagePreview = document.getElementById('imagePreview');
+  var issueDate = document.getElementById('issueDate');
+  var selectedFiles = [];
 
-    // });
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-    var yyyy = today.getFullYear();
-    today = yyyy + '-' + mm + '-' + dd;
-    issueDate.value = today;
-    imageUpload.addEventListener('change', function(event) {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+  var yyyy = today.getFullYear();
+  today = yyyy + '-' + mm + '-' + dd;
+  issueDate.value = today;
+
+  imageUpload.addEventListener('change', function(event) {
     var files = event.target.files;
 
-      if (files.length > 5) {
-        alert('You can upload maximum 5 images.');
-        this.value = ''; 
-        return;
-      }
+    if (selectedFiles.length + files.length > 5) {
+      alert('You can upload a maximum of 5 images.');
+      this.value = '';
+      return;
+    }
 
-      for (var i = 0; i < files.length; i++) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-          var image = document.createElement('div');
-          image.classList.add('image-preview-item', 'card');
-          image.innerHTML = '<img src="' + e.target.result + '" class="card-img-top" alt="Image Preview">' +
-                            '<span class="close" onclick="removeImage(this)">×</span>';
-          imagePreview.appendChild(image);
-        };
-        reader.readAsDataURL(files[i]);
-      }
-      console.log(imagePreview);
-     
-      if (imagePreview.children.length === 5) {
-        addImageButton.disabled = true;
-      }
+    for (var i = 0; i < files.length; i++) {
+      selectedFiles.push(files[i]);
+    }
+
+    updateImagePreview();
+  });
+
+  function updateImagePreview() {
+    imagePreview.innerHTML = '';
+    selectedFiles.forEach((file, index) => {
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        var image = document.createElement('div');
+        image.classList.add('image-preview-item', 'card');
+        image.innerHTML = '<img src="' + e.target.result + '" class="card-img-top" alt="Image Preview">' +
+                          '<span class="close" onclick="removeImage(' + index + ')">×</span>';
+        imagePreview.appendChild(image);
+      };
+      reader.readAsDataURL(file);
     });
 
-    function removeImage(element) {
-      element.parentNode.remove();
+    if (selectedFiles.length === 5) {
+      addImageButton.disabled = true;
+    } else {
+      addImageButton.disabled = false;
+    }
+  }
 
-     
-      if (imagePreview.children.length < 5) {
-        addImageButton.disabled = false;
-      }
+  function removeImage(index) {
+    selectedFiles.splice(index, 1);
+    updateImagePreview();
+  }
+
+  function addMoreImageUpload() {
+    imageUpload.click();
+  }
+
+  function validateForm(event) {
+    var form = document.getElementById('issueForm');
+
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
     }
 
-    function addMoreImageUpload() {
-      imageUpload.click();
-    }
+    form.classList.add('was-validated');
+    return form.checkValidity();
+  }
 
-    function validateForm() {
-      var form = document.getElementById('issueForm');
-      if (!form.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      form.classList.add('was-validated');
-      return form.checkValidity();
+  document.getElementById('issueForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    if (validateForm(event)) {
+      var form = event.target;
+      var formData = new FormData(form);
+
+      selectedFiles.forEach((file, index) => {
+        formData.append('imageUpload[]', file);
+      });
+
+      fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: {
+          'X-CSRF-TOKEN': form.querySelector('[name="_token"]').value
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success' && data.redirect_url) {
+          window.location.href = data.redirect_url;
+        } else {
+          alert('Error submitting issue!');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        alert('Error submitting issue!');
+      });
     }
-  </script>
+  });
+</script>
+
 </body>
 </html>
 @stop
