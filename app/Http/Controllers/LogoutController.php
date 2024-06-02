@@ -15,14 +15,17 @@ class LogoutController extends Controller
      */
     public function logout(Request $request)
     {
-        // Log out the user
+        $user = Auth::user();
+        if ($user && $user->remember_token) {
+            $user->setRememberToken(null);
+            $user->save();
+        }
         Auth::logout();
-
-        // Invalidate the session
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/')->with('success', 'You have successfully logged out.');
     }
+
 }
 
 
