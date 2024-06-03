@@ -1,4 +1,4 @@
-#### Author:Shreekant Sureliya
+#### Author: Yash Chaudhari & Om Chaudhari
 
 ## Laravel cheat sheet 
 
