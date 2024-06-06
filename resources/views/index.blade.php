@@ -33,16 +33,15 @@
       }
 
       body {
-        background-color: #e59f63; 
+        background-color: #932b2d; 
       }
     }
 
 
-    fieldset {
+    .fieldset {
       margin: auto;
     }
     .card {
-      border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     .card-header {
