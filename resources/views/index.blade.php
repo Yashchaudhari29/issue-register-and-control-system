@@ -16,6 +16,7 @@
     .login-container {
       margin-top: 15%;
     }
+
     .background-image {
       position: fixed;
       top: 0;
@@ -23,8 +24,20 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      opacity: 0.8;
+      opacity: 0.95;
     }
+
+    @media (max-width: 767px) {
+      .background-image {
+        display: none; 
+      }
+
+      body {
+        background-color: #e59f63; 
+      }
+    }
+
+
     fieldset {
       margin: auto;
     }
